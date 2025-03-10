@@ -31,6 +31,13 @@ import {
 
 import type { ToolsNameList } from "../types"
 import {
+	TwitterGetUserTool,
+	TwitterLikeTool,
+	TwitterPostTool,
+	TwitterRetweetTool,
+	TwitterSearchTool,
+} from "./agent-twitter-client"
+import {
 	EchelonBorrowTokenTool,
 	EchelonLendTokenTool,
 	EchelonRepayTokenTool,
@@ -117,6 +124,12 @@ export const createAptosTools = (agent: AgentRuntime, config: { filter?: ToolsNa
 		new MerkleTradeGetPositionTool(agent),
 		new MerkleTradePlaceLimitOrderTool(agent),
 		new MerkleTradePlaceMarketOrderTool(agent),
+		// Twitter Tools
+		new TwitterPostTool(agent),
+		new TwitterLikeTool(agent),
+		new TwitterRetweetTool(agent),
+		new TwitterSearchTool(agent),
+		new TwitterGetUserTool(agent),
 	]
 
 	return config.filter ? tools.filter((tool) => config?.filter?.includes(tool.name as ToolsNameList)) : tools
@@ -133,3 +146,4 @@ export * from "./liquidswap"
 export * from "./panora"
 export * from "./openai"
 export * from "./thala"
+export * from "./agent-twitter-client"

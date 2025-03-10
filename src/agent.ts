@@ -24,6 +24,7 @@ import {
 	unstakeTokens,
 	withdrawToken,
 } from "./tools"
+import { XGetUser, XLike, XPost, XRetweet, XSearch } from "./tools/agent-twitter-client"
 import {
 	borrowAriesToken,
 	createAriesProfile,
@@ -59,14 +60,14 @@ import {
 import { getTokenByTokenName } from "./utils/get-pool-address-by-token-name"
 
 export class AgentRuntime {
-	public account: BaseSigner
-	public aptos: Aptos
-	public config: any
+	account: BaseSigner
+	aptos: Aptos
+	config: Record<string, unknown>
 
-	constructor(account: BaseSigner, aptos: Aptos, config?: any) {
+	constructor(account: BaseSigner, aptos: Aptos, config?: Record<string, unknown>) {
 		this.account = account
 		this.aptos = aptos
-		this.config = config ? config : {}
+		this.config = config ?? {}
 	}
 
 	async getPythData() {
@@ -295,5 +296,26 @@ export class AgentRuntime {
 
 	getPositionsWithMerkleTrade() {
 		return getPositionsWithMerkleTrade(this)
+	}
+
+	// Twitter tools
+	postTweet(text: string) {
+		return XPost(this, text)
+	}
+
+	likeTweet(tweetId: string) {
+		return XLike(this, tweetId)
+	}
+
+	retweetTweet(tweetId: string) {
+		return XRetweet(this, tweetId)
+	}
+
+	searchTweets(query: string, limit?: number) {
+		return XSearch(this, query, limit)
+	}
+
+	getTwitterUser(username: string) {
+		return XGetUser(this, username)
 	}
 }

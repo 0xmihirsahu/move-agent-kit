@@ -16,7 +16,7 @@ export async function createImage(
 	n = 1
 ) {
 	try {
-		const apiKey = agent.config.OPENAI_API_KEY
+		const apiKey = agent.config.OPENAI_API_KEY as string
 		if (!apiKey) {
 			throw new Error("No OPENAI_API_KEY in config")
 		}

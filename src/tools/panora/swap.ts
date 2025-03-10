@@ -27,7 +27,7 @@ export async function swapWithPanora(
 
 		const url = `https://api.panora.exchange/swap?${new URLSearchParams(panoraParameters).toString()}`
 
-		const panoraApiKey = agent.config.PANORA_API_KEY
+		const panoraApiKey = agent.config.PANORA_API_KEY as string
 		if (!panoraApiKey) {
 			throw new Error("No PANORA_API_KEY in config")
 		}
@@ -37,7 +37,7 @@ export async function swapWithPanora(
 			{},
 			{
 				headers: {
-					"x-api-key": panoraApiKey,
+					"x-api-key": panoraApiKey as string,
 				},
 			}
 		)
