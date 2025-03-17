@@ -3,7 +3,6 @@
  */
 import { Tool } from "langchain/tools"
 import type { AgentRuntime } from "../../agent"
-import { XGetUser } from "../../tools/twitter"
 
 /**
  * Tool for getting Twitter user profiles using agent-twitter-client
@@ -41,11 +40,11 @@ Example workflow:
 
 Note: Only public profiles can be accessed. Private accounts will return an error. Use this tool to verify accounts before interacting with their content.`
 
-	private runtime: AgentRuntime
+	private agent: AgentRuntime
 
-	constructor(runtime: AgentRuntime) {
+	constructor(agent: AgentRuntime) {
 		super()
-		this.runtime = runtime
+		this.agent = agent
 	}
 
 	/** 
@@ -55,7 +54,7 @@ Note: Only public profiles can be accessed. Private accounts will return an erro
 	 */
 	async _call(input: string): Promise<string> {
 		try {
-			const result = await XGetUser(this.runtime, input)
+			const result = await this.agent.getTwitterUser(input)
 
 			if (result.success && result.profile) {
 				const { name = "Unknown", followers = 0, posts = 0 } = result.profile

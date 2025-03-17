@@ -3,7 +3,7 @@
  */
 import { Tool } from "langchain/tools"
 import type { AgentRuntime } from "../../agent"
-import { XSearch } from "../../tools/twitter"
+
 
 /**
  * Tool for searching tweets on Twitter using agent-twitter-client
@@ -34,11 +34,11 @@ Example queries:
 
 The results will include the tweet text and username for each matching tweet. Use these IDs with the like_tweet or retweet tools for engagement.`
 
-	private runtime: AgentRuntime
+	private agent: AgentRuntime
 
-	constructor(runtime: AgentRuntime) {
+	constructor(agent: AgentRuntime) {
 		super()
-		this.runtime = runtime
+		this.agent = agent
 	}
 
 	/** 
@@ -48,7 +48,7 @@ The results will include the tweet text and username for each matching tweet. Us
 	 */
 	async _call(input: string): Promise<string> {
 		try {
-			const result = await XSearch(this.runtime, input)
+			const result = await this.agent.searchTweets(input)
 
 			if (result.success && result.posts?.length) {
 				const tweets = result.posts.map((post) => `- ${post.text} (by @${post.username})`).join("\n")

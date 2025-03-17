@@ -3,7 +3,7 @@
  */
 import { Tool } from "langchain/tools"
 import type { AgentRuntime } from "../../agent"
-import { XLike } from "../../tools/twitter"
+
 
 /**
  * Tool for liking tweets on Twitter using agent-twitter-client
@@ -30,11 +30,11 @@ Example workflow:
 
 Note: The tweet must be public and still available. If you get an error, the tweet might be deleted or private.`
 
-	private runtime: AgentRuntime
+	private agent: AgentRuntime
 
-	constructor(runtime: AgentRuntime) {
+	constructor(agent: AgentRuntime) {
 		super()
-		this.runtime = runtime
+		this.agent = agent
 	}
 
 	/** 
@@ -44,7 +44,7 @@ Note: The tweet must be public and still available. If you get an error, the twe
 	 */
 	async _call(input: string): Promise<string> {
 		try {
-			const result = await XLike(this.runtime, input)
+			const result = await this.agent.likeTweet(input)
 
 			if (result.success) {
 				return `Successfully liked tweet with ID: ${input}`

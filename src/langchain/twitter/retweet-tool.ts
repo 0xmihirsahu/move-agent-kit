@@ -3,7 +3,7 @@
  */
 import { Tool } from "langchain/tools"
 import type { AgentRuntime } from "../../agent"
-import { XRetweet } from "../../tools/twitter"
+
 
 /**
  * Tool for retweeting tweets on Twitter using agent-twitter-client
@@ -37,11 +37,11 @@ Common use cases:
 
 Note: The tweet must be public, not already retweeted by you, and still available. If you get an error, check these conditions.`
 
-	private runtime: AgentRuntime
+	private agent: AgentRuntime
 
-	constructor(runtime: AgentRuntime) {
+	constructor(agent: AgentRuntime) {
 		super()
-		this.runtime = runtime
+		this.agent = agent
 	}
 
 	/** 
@@ -51,7 +51,7 @@ Note: The tweet must be public, not already retweeted by you, and still availabl
 	 */
 	async _call(input: string): Promise<string> {
 		try {
-			const result = await XRetweet(this.runtime, input)
+			const result = await this.agent.retweetTweet(input)
 
 			if (result.success) {
 				return `Successfully retweeted tweet with ID: ${input}`

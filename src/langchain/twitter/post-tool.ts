@@ -3,7 +3,7 @@
  */
 import { Tool } from "langchain/tools"
 import type { AgentRuntime } from "../../agent"
-import { XPost } from "../../tools/twitter"
+
 
 /**
  * Tool for posting tweets to Twitter using agent-twitter-client
@@ -23,11 +23,11 @@ Examples:
 
 Note: URLs, emojis, and special characters are allowed. For best engagement, keep the message clear and engaging.`
 
-	private runtime: AgentRuntime
+	private agent: AgentRuntime
 
-	constructor(runtime: AgentRuntime) {
+	constructor(agent: AgentRuntime) {
 		super()
-		this.runtime = runtime
+		this.agent = agent
 	}
 
 	/** 
@@ -37,7 +37,7 @@ Note: URLs, emojis, and special characters are allowed. For best engagement, kee
 	 */
 	async _call(input: string): Promise<string> {
 		try {
-			const result = await XPost(this.runtime, input)
+			const result = await this.agent.postTweet(input)
 
 			if (result.success) {
 				return `Successfully posted tweet: "${input}"`
